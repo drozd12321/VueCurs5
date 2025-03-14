@@ -14,6 +14,7 @@ export default {
       },
       color: "red",
       type: "color",
+      count: 0,
     };
   },
   components: { AppAlert },
@@ -25,6 +26,9 @@ export default {
       this.cnglang("en");
       this.$forceUpdate();
     },
+    increment() {
+      this.count++;
+    },
   },
   directives: { focus: focucDirectives, color: colorDirectives },
 };
@@ -32,6 +36,12 @@ export default {
 
 <template>
   <div class="item">
+    <div class="counter">
+      <transition name="flip" mode="out-in">
+        <div :key="count" class="number">{{ count }}</div>
+      </transition>
+    </div>
+    <button @click="increment">Увеличить</button>
     <AppAlert
       v-if="propsalert.isClose"
       :alert="propsalert"
@@ -62,6 +72,39 @@ export default {
 </template>
 
 <style scoped>
+.counter {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  border: 2px solid #333;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.number {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
+  font-weight: 900;
+}
+
+.flip-enter-active,
+.flip-leave-active {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.flip-enter-from {
+  transform: rotateX(-180deg);
+}
+
+.flip-leave-to {
+  transform: rotateX(180deg);
+}
 .item {
   display: flex;
   width: 100%;
