@@ -3,6 +3,7 @@ import AppAlert from "./components/AppAlert.vue";
 import colorDirectives from "./directives/colorDirectives";
 import focucDirectives from "./directives/focucDirectives";
 export default {
+  inject: ["cnglang"],
   data() {
     return {
       propsalert: {
@@ -19,6 +20,10 @@ export default {
   methods: {
     toggleAlert() {
       this.propsalert.isClose = !this.propsalert.isClose;
+    },
+    chgLnd() {
+      this.cnglang("en");
+      this.$forceUpdate();
     },
   },
   directives: { focus: focucDirectives, color: colorDirectives },
@@ -50,6 +55,8 @@ export default {
     </div>
     <div class="container">
       <button class="btn" @click="$alert('Wow')">Плагины</button>
+      <h3>{{ $i18("app.title") }}</h3>
+      <button class="btn" @click="chgLnd">{{ $i18("app.changeBtn") }}</button>
     </div>
   </div>
 </template>
