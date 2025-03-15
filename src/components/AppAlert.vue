@@ -18,7 +18,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .btn {
   padding: 7px;
   margin: 6px;

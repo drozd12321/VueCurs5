@@ -1,5 +1,6 @@
 <script>
 import AppAlert from "./components/AppAlert.vue";
+import AppModal from "./components/AppModal.vue";
 import colorDirectives from "./directives/colorDirectives";
 import focucDirectives from "./directives/focucDirectives";
 export default {
@@ -15,9 +16,10 @@ export default {
       color: "red",
       type: "color",
       count: 0,
+      modal: false,
     };
   },
-  components: { AppAlert },
+  components: { AppAlert, AppModal },
   methods: {
     toggleAlert() {
       this.propsalert.isClose = !this.propsalert.isClose;
@@ -35,13 +37,17 @@ export default {
 </script>
 
 <template>
-  <div class="item">
+  <teleport to="body">
+    <AppModal v-if="modal" @modal="modal = false"></AppModal>
+  </teleport>
+  <div class="item" :class="{ mod: modal }">
     <div class="counter">
       <transition name="flip" mode="out-in">
         <div :key="count" class="number">{{ count }}</div>
       </transition>
     </div>
     <button @click="increment">Увеличить</button>
+
     <AppAlert
       v-if="propsalert.isClose"
       :alert="propsalert"
@@ -51,6 +57,7 @@ export default {
       <button class="btn" @click="toggleAlert">
         {{ propsalert.isClose ? "Скрыть" : "Показать" }} сообщение
       </button>
+      <button class="btn" @click="modal = true">Показать модально окно</button>
     </div>
     <div class="container">
       <h3 v-color:[type].blink.hover="color">Свои директивы</h3>
@@ -72,6 +79,9 @@ export default {
 </template>
 
 <style scoped>
+.mod {
+  opacity: 0.5;
+}
 .counter {
   position: relative;
   width: 50px;
